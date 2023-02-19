@@ -81,7 +81,7 @@ class LayananController extends Controller
 
     public function getLayanan($id)
     {
-        $layanan = Layanan::findOrFail($id)->with('barber')->first();
+        $layanan = Layanan::findOrFail($id)->with('barberId')->first();
 
         //check jika layanan berhasil diambil
         if ($layanan) {

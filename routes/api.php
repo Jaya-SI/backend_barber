@@ -50,6 +50,9 @@ Route::prefix('mitra')->group(function () {
     //route getBarber
     Route::get('/get-barber/{id}', [App\Http\Controllers\Api\Mitra\BarberController::class, 'getBarber', ['as' => 'mitra']]);
 
+    //route getBarberByUser
+    Route::get('/get-barber-by-user/{id}', [App\Http\Controllers\Api\Mitra\BarberController::class, 'checkBarberUser', ['as' => 'mitra']]);
+
     //route addLayanan
     Route::post('/add-layanan', [App\Http\Controllers\Api\Mitra\LayananController::class, 'addLayanan', ['as' => 'mitra']]);
 
