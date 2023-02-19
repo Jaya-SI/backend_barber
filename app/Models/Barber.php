@@ -19,7 +19,7 @@ class Barber extends Model
         'longitude',
     ];
 
-    public function user()
+    public function userId()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
