@@ -77,9 +77,28 @@ class BarberController extends Controller
         }
     }
 
+    public function checkBarberUser($id)
+    {
+        $barber = Barber::where('user_id', $id)->first();
+
+        //check jika barber berhasil didapatkan
+        if ($barber) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Barber get successfully',
+                'data' => $barber
+            ], 201);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Barber failed to get',
+            ], 409);
+        }
+    }
+
     public function getBarber($id)
     {
-        $barber = Barber::findOrFail($id)->with('user')->where('id', $id)->first();
+        $barber = Barber::findOrFail($id)->with('userId')->where('id', $id)->first();
 
         //check jika barber berhasil didapatkan
         if ($barber) {
