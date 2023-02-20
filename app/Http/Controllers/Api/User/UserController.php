@@ -24,34 +24,58 @@ class UserController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        //upload img
-        $img = $request->file('img');
-        $extension = $img->getClientOriginalExtension();
-        $fileName = Str::random(10) . '.' . $extension;
-        $uploadPath = env('UPLOAD_PATH') . "/user/img";
+        //check jika user upload img
+        if ($request->hasFile('img')) {
+            $img = $request->file('img');
+            $extension = $img->getClientOriginalExtension();
+            $fileName = Str::random(10) . '.' . $extension;
+            $uploadPath = env('UPLOAD_PATH') . "/user/img";
 
-        //create user
-        $user = User::create([
-            'no_hp' => $request->no_hp,
-            'name' => $request->name,
-            'img' => $request->file('img')->move($uploadPath, $fileName),
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => 'user',
-        ]);
+            //create user
+            $user = User::create([
+                'no_hp' => $request->no_hp,
+                'name' => $request->name,
+                'img' => $request->file('img')->move($uploadPath, $fileName),
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'role' => 'user',
+            ]);
 
-        if ($user) {
+            if ($user) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'User created successfully',
+                    'data' => $user
+                ], 200);
+            }
+
             return response()->json([
-                'success' => true,
-                'message' => 'User created successfully',
-                'data' => $user
-            ], 200);
-        }
+                'success' => false,
+                'message' => 'User failed to register',
+            ], 409);
+        } else {
+            //create user
+            $user = User::create([
+                'no_hp' => $request->no_hp,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'role' => 'user',
+            ]);
 
-        return response()->json([
-            'success' => false,
-            'message' => 'User failed to register',
-        ], 409);
+            if ($user) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'User created successfully',
+                    'data' => $user
+                ], 200);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'User failed to register',
+            ], 409);
+        }
     }
 
     public function login(Request $request)
