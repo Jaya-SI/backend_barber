@@ -93,6 +93,12 @@ Route::prefix('user')->group(function () {
     //route listBarber
     Route::get('/list-barber', [App\Http\Controllers\Api\User\BarberController::class, 'listBarber', ['as' => 'user']]);
 
+    //list barber by kota
+    Route::post('/list-barber-kota', [App\Http\Controllers\Api\User\BarberController::class, 'listBarberByKota', ['as' => 'user']]);
+
+    //list barber by kota and name
+    Route::post('/list-barber-kota-name', [App\Http\Controllers\Api\User\BarberController::class, 'listBarberByKotaAndName', ['as' => 'user']]);
+
     //route detailBarber
     Route::get('/detail-barber/{id}', [App\Http\Controllers\Api\User\BarberController::class, 'detailBarber', ['as' => 'user']]);
 

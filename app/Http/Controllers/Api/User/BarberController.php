@@ -27,6 +27,44 @@ class BarberController extends Controller
         ], 404);
     }
 
+    //list barber by kota
+    public function listBarberByKota(Request $request)
+    {
+        $barber = Barber::where('kota', $request->kota)->get();
+
+        if ($barber) {
+            return response()->json([
+                'success' => true,
+                'message' => 'List Barber by kota',
+                'data' => $barber,
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Barber not found',
+        ], 404);
+    }
+
+    //list barber by kota and name
+    public function listBarberByKotaAndName(Request $request)
+    {
+        $barber = Barber::where('kota', $request->kota)->where('name', 'like', '%' . strtolower($request->name) . '%')->get();
+
+        if ($barber) {
+            return response()->json([
+                'success' => true,
+                'message' => 'List Barber by kota and name',
+                'data' => $barber,
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Barber not found',
+        ], 404);
+    }
+
     public function detailBarber($id)
     {
         $barber = Barber::find($id);
